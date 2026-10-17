@@ -26,8 +26,8 @@ func (s *SMS) Send(message string) string {
 	return fmt.Sprintf("Sending SMS using API Key %s -> Message: %s\n", s.ApiKey, message)
 }
 
-// NotifyUser é uma função polimórfica que aceita qualquer tipo que implemente a interface Notifier
-func NotifyUser(n Notifier, message string) {
+// Notify é uma função polimórfica que aceita qualquer tipo que implemente a interface Notifier
+func Notify(n Notifier, message string) {
 	fmt.Print(n.Send(message))
 }
 
@@ -39,6 +39,15 @@ func main() {
 	message := "Hello, this is a notification!"
 
 	// Polimorfismo sem precisar da palavra "implements"
-	NotifyUser(email, message)
-	NotifyUser(sms, message)
+	Notify(email, message)
+	Notify(sms, message)
 }
+
+//// Se não houvesse interface, precisaria criar funções específicas para cada tipo.
+//func NotifyByEmail(e *Email, message string) {
+//	fmt.Print(e.Send(message))
+//}
+//
+//func NotifyBySMS(s *SMS, message string) {
+//	fmt.Print(s.Send(message))
+//}
