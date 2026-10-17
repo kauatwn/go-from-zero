@@ -8,8 +8,8 @@ type Animal struct {
 }
 
 // Eat é um método associado ao Animal (Pointer Receiver)
-func (a *Animal) Eat() {
-	fmt.Printf("%s is eating.\n", a.Name)
+func (a *Animal) Eat() string {
+	return fmt.Sprintf("%s is eating.", a.Name)
 }
 
 // Dog funciona como a "Classe Filha" que herda comportamentos (composição em Go)
@@ -17,49 +17,37 @@ type Dog struct {
 	// Embedding: apenas o tipo, sem nome de campo.
 	// Isso faz com que Dog "herde" os campos e métodos de Animal (Field/Method Promotion).
 	Animal
-	Breed string
 }
 
-func (d *Dog) Bark() {
-	fmt.Printf("%s (the %s) is barking!\n", d.Name, d.Breed)
+func (d *Dog) Bark() string {
+	return fmt.Sprintf("%s is barking!", d.Name)
 }
 
 // Cat funciona como a "Classe Filha" que herda comportamentos (composição em Go)
 type Cat struct {
 	Animal
-	IsLazy bool
 }
 
-func (c *Cat) Meow() {
-	fmt.Printf("%s says Meow!\n", c.Name)
+func (c *Cat) Meow() string {
+	return fmt.Sprintf("%s says meow!", c.Name)
 }
 
 func main() {
-	//dog := &Dog{
-	//	Animal: Animal{Name: "Rex"},
-	//	Breed:  "Golden Retriever",
-	//}
+	//dog := &Dog{Animal: Animal{Name: "Rex"}}
 
 	// Syntax sugar: podemos inicializar o campo Animal diretamente, sem precisar nomeá-lo.
-	dog := &Dog{
-		Name:  "Rex",
-		Breed: "Golden Retriever",
-	}
+	dog := &Dog{Name: "Rex"}
 
-	fmt.Println(dog.Name) // Output: Rex
+	fmt.Println(dog.Name)
+	fmt.Println(dog.Eat())
+	fmt.Println(dog.Bark())
+	fmt.Println()
 
-	dog.Eat()  // Output: Rex is eating.
-	dog.Bark() // Output: Rex (the Golden Retriever) is barking!
+	cat := &Cat{Name: "Fluffy"}
 
-	cat := &Cat{
-		Name:   "Fluffy",
-		IsLazy: true,
-	}
-
-	fmt.Println(cat.Name) // Output: Fluffy
-
-	cat.Eat()  // Output: Fluffy is eating.
-	cat.Meow() // Output: Fluffy says Meow!
+	fmt.Println(cat.Name)
+	fmt.Println(cat.Eat())
+	fmt.Println(cat.Meow())
 }
 
 // Em Go, herança por hierarquia é proibida.
